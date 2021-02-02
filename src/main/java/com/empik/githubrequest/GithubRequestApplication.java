@@ -1,13 +1,13 @@
-package com.empik.github;
+package com.empik.githubrequest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GithubApplication {
+public class GithubRequestApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GithubApplication.class, args);
+		SpringApplication.run(GithubRequestApplication.class, args);
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.empik.github.model;
+package com.empik.githubrequest.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class RequestCount {
+public class LoginCount {
 
     @Id
     private String login;
