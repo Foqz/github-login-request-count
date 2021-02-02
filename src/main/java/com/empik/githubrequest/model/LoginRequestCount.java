@@ -11,10 +11,10 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class LoginCount {
+public class LoginRequestCount {
 
     @Id
     private String login;
 
-    private Long REQUEST_COUNT = 0L;
+    private Long REQUEST_COUNT;
 }
