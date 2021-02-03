@@ -12,9 +12,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Entity
 public class LoginRequestCount {
-
     @Id
     private String login;
-
     private Long REQUEST_COUNT;
 }
