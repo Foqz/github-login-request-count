@@ -17,7 +17,6 @@ public class GithubUserService {
 
     @Value("${baseGithubURL}")
     private String baseGithubURL;
-
     private final LoginRequestCountService loginRequestCountService;
 
     public GithubUserService(LoginRequestCountService loginRequestCountService) {
@@ -25,9 +24,25 @@ public class GithubUserService {
     }
 
     public MappedGithubUserResponse getGithubInfoByLogin(String login) {
-        GithubUserByLoginResponse githubUserByLoginResponse = getGithubUserResponseByLogin(login);
         loginRequestCountService.saveLoginRequestCount(login);
-        return mapGithubUserInfo(githubUserByLoginResponse);
+        return mapGithubUserInfo(getGithubUserResponseByLogin(login));
+    }
+
+    private GithubUserByLoginResponse getGithubUserResponseByLogin(String login) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            OkHttpClient client = new OkHttpClient();
+
+            Request request = new Request.Builder()
+                    .url(baseGithubURL + login)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+
+            return mapper.readValue(response.body().byteStream(), GithubUserByLoginResponse.class);
+        } catch (IOException e) {
+            throw new GithubUserResponseException("Exception during connection to github API");
+        }
     }
 
     private MappedGithubUserResponse mapGithubUserInfo(GithubUserByLoginResponse githubUserByLoginResponse) {
@@ -46,22 +61,5 @@ public class GithubUserService {
         double followersFloat = followers;
         double publicReposFloat = publicRepos;
         return 6 / followersFloat * (2 + publicReposFloat);
-    }
-
-    private GithubUserByLoginResponse getGithubUserResponseByLogin(String login) {
-
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            OkHttpClient client = new OkHttpClient();
-
-            Request request = new Request.Builder()
-                    .url(baseGithubURL + login)
-                    .build();
-
-            Response response = client.newCall(request).execute();
-            return mapper.readValue(response.body().byteStream(), GithubUserByLoginResponse.class);
-        } catch (IOException e) {
-            throw new GithubUserResponseException("Exception during connection to github API");
-        }
     }
 }

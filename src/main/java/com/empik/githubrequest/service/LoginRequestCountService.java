@@ -11,7 +11,7 @@ import java.util.Optional;
 public class LoginRequestCountService {
 
     private final LoginRequestCountRepository loginRequestCountRepository;
-    private static final Long loginIncrement = 1L;
+    private static final Long LOGIN_INCREMENT = 1L;
 
     public LoginRequestCountService(LoginRequestCountRepository loginRequestCountRepository) {
         this.loginRequestCountRepository = loginRequestCountRepository;
@@ -22,10 +22,10 @@ public class LoginRequestCountService {
         Optional<LoginRequestCount> loginRequestCountOptional = loginRequestCountRepository.findByLogin(login);
         if (loginRequestCountOptional.isPresent()) {
             LoginRequestCount loginRequestCount = loginRequestCountOptional.get();
-            loginRequestCount.setREQUEST_COUNT(loginRequestCount.getREQUEST_COUNT() + loginIncrement);
+            loginRequestCount.setREQUEST_COUNT(loginRequestCount.getREQUEST_COUNT() + LOGIN_INCREMENT);
             loginRequestCountRepository.save(loginRequestCount);
         } else {
-            loginRequestCountRepository.save(new LoginRequestCount(login, loginIncrement));
+            loginRequestCountRepository.save(new LoginRequestCount(login, LOGIN_INCREMENT));
         }
     }
 }
